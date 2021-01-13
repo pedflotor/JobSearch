@@ -60,7 +60,7 @@ def retrieve_job_data(urls, liked_job):
 
         # Parse the html content
         soup = BeautifulSoup(html_content, "lxml")
-        print(soup.prettify()) # Line used to look on HTML for the data to be scraped
+        # print(soup.prettify()) # Line used to look on HTML for the data to be scraped
 
         # job title
         job_titles = soup.find("h1", class_="topcard__title").text
@@ -149,6 +149,7 @@ links = ["https://www.linkedin.com/jobs/view/2354678736",
          "https://www.linkedin.com/jobs/view/2354626591",
          "https://www.linkedin.com/jobs/view/2371914278"]
 
+is_liked = 'Yes'
 
 new_job_ID_list = extract_job_id(links)
 
@@ -159,7 +160,7 @@ if os.path.isfile('ScrapeOfLikedJobs.csv'):
     print(url)
 
     try:
-        job_data = retrieve_job_data(url, 'Yes')
+        job_data = retrieve_job_data(url, is_liked)
         write_in_existing_file(job_data)
         with pd.option_context('display.max_rows', None, 'display.max_columns', None):
             print(job_data.head(2))
@@ -172,7 +173,7 @@ if os.path.isfile('ScrapeOfLikedJobs.csv'):
             print(SoLJ.head(2))
 
 else:
-    job_data = retrieve_job_data(new_job_ID_list, 'Yes')
+    job_data = retrieve_job_data(new_job_ID_list, is_liked)
     write_in_new_file(job_data)
     with pd.option_context('display.max_rows', None, 'display.max_columns', None):
         print(job_data.head(2))

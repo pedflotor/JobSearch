@@ -111,9 +111,17 @@ def retrieve_job_data(urls, liked_job, count):
         try:
             job_locations = soup.find("span", class_="jobs-unified-top-card__bullet").text.strip().split(", ")
 
-            job_location_city.append(job_locations[0])
-            job_location_region.append(job_locations[1])
-            job_location_country.append(job_locations[2])
+            # in case the location specified includes the city, region and country
+            if len(job_locations) == 3:
+                job_location_city.append(job_locations[len(job_locations)-3])
+                job_location_region.append(job_locations[len(job_locations)-2])
+                job_location_country.append(job_locations[len(job_locations)-1])
+
+            # in case the location specified includes the region and country
+            else:
+                job_location_city.append('0')
+                job_location_region.append(job_locations[len(job_locations)-2])
+                job_location_country.append(job_locations[len(job_locations)-1])
 
         except:
             print('job location')
@@ -181,20 +189,20 @@ def retrieve_job_data(urls, liked_job, count):
             link.append(job_url)
 
     print('The number of scraped jobs is: ', len(post_title))
-    # print(len(job_like))
-    # print(len(post_date))
-    # print(len(company_name))
-    # print(len(post_title))
-    # print(len(job_location_city))
-    # print(len(job_location_region))
-    # print(len(job_location_country))
-    # print(len(job_desc))
-    # print(len(level))
-    # print(len(emp_type))
-    # print(len(functions))
-    # print(len(industries))
-    # print(len(job_id))
-    # print(len(link))
+    print(len(job_like))
+    print(len(post_date))
+    print(len(company_name))
+    print(len(post_title))
+    print(len(job_location_city))
+    print(len(job_location_region))
+    print(len(job_location_country))
+    print(len(job_desc))
+    print(len(level))
+    print(len(emp_type))
+    print(len(functions))
+    print(len(industries))
+    print(len(job_id))
+    print(len(link))
 
     # Create a DataFrame with the scraped data
     job_data = pd.DataFrame({'Liked job?': job_like,
@@ -236,12 +244,12 @@ def write_in_new_file(dataframe_jobs):
 
 
 # List of URLs where the text will be scraped from
-links = ["https://www.linkedin.com/jobs/view/2367290389",
-         "https://www.linkedin.com/jobs/view/2347801109",
-         "https://www.linkedin.com/jobs/view/2357700749",
-         "https://www.linkedin.com/jobs/view/2376549855",
-         "https://www.linkedin.com/jobs/view/2369914822",
-         "https://www.linkedin.com/jobs/view/2354626591"]
+links = ["https://www.linkedin.com/jobs/view/2368902042",
+         "https://www.linkedin.com/jobs/view/2369634018",
+         "https://www.linkedin.com/jobs/view/2379187906",
+         "https://www.linkedin.com/jobs/view/2359622787",
+         "https://www.linkedin.com/jobs/view/2379084299",
+         "https://www.linkedin.com/jobs/view/2369914822"]
 
 # Define if the jobs specified on the "links" variable is liked (1) or not (0)
 is_liked = '1'
